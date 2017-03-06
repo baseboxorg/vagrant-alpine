@@ -3,14 +3,14 @@ MAINTAINER Kenney He<kenneyhe@gmail.com>
 
 # Install Vagrant
 RUN set -x && \
-  VAGRANT_VERSION=1.8.4 && \
-  apk add --no-cache bash rsync openssh ruby && \
-  wget https://releases.hashicorp.com/vagrant/${VAGRANT_VERSION}/vagrant_${VAGRANT_VERSION}_x86_64.deb && \
+  VAGRANT_VERSION=1.9.1 && \
+  apk add --no-cache bash rsync openssh ruby curl ruby-devel rubygems && \
+  curl -L https://releases.hashicorp.com/vagrant/${VAGRANT_VERSION}/vagrant_${VAGRANT_VERSION}_x86_64.deb -O && \
   apk add --no-cache --virtual .vagrant dpkg tar && \
-  dpkg -x vagrant_1.8.4_x86_64.deb / && \
+  dpkg -x vagrant_${VAGRANT_VERSION}_x86_64.deb / && \
   apk del .vagrant
 
-RUN rm -f vagrant_1.8.4_x86_64.deb
+RUN rm -f vagrant_${VAGRANT_VERSION}_x86_64.deb
 
 # Install glibc
 #
@@ -46,5 +46,6 @@ RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases
         "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
         "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
         "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
-
+        
+RUN gem install ffi -v '1.9.18'
 RUN vagrant plugin install docker
