@@ -1,0 +1,27 @@
+# see https://karthikv.net/articles/circleci-docker-flow/
+machine:
+  pre:
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+  services:
+    - docker
+    
+dependencies:
+  override:
+    - docker build -t kenney/vagrant-alpine .
+
+test:
+  override:
+    - docker run --net host -v /var/run/docker.sock:/var/run/docker.sock --name test kenney/vagrant-alpine vagrant --helps
+    - docker ps -a
+    
+  post:
+    - env
+    - docker export test | gzip - > $CIRCLE_ARTIFACTS/build${CIRCLE_TAG}.tar.gz
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      # TODO push if successful
+      # - docker push kenney/vagrant-alpine
