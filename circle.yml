@@ -11,7 +11,7 @@ dependencies:
 
 test:
   override:
-    - docker run --net host -v /var/run/docker.sock:/var/run/docker.sock --name test kenney/vagrant-alpine vagrant --helps
+    - docker run --net host -v /var/run/docker.sock:/var/run/docker.sock --name test kenney/vagrant-alpine vagrant --help
     - docker ps -a
     
   post:
