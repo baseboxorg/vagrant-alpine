@@ -4,7 +4,7 @@ MAINTAINER Kenney He<kenneyhe@gmail.com>
 # Install Vagrant
 RUN set -x && \
   VAGRANT_VERSION=1.9.1 && \
-  apk add --no-cache bash rsync openssh ruby curl ruby-dev rubygems && \
+  apk add --no-cache bash rsync openssh ruby curl ruby-dev && \
   curl -L https://releases.hashicorp.com/vagrant/${VAGRANT_VERSION}/vagrant_${VAGRANT_VERSION}_x86_64.deb -O && \
   apk add --no-cache --virtual .vagrant dpkg tar && \
   dpkg -x vagrant_${VAGRANT_VERSION}_x86_64.deb / && \
