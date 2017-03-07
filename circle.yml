@@ -10,8 +10,8 @@ dependencies:
     - docker build -t kenney/vagrant-alpine .
 
 test:
-  pre:
-    - ./unittest.py
+  override:
+    - nosetests
     
   post:
     - env
